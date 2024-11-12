@@ -3,6 +3,7 @@ import {
   isCommit,
 } from './lexicon/types/com/atproto/sync/subscribeRepos'
 import { FirehoseSubscriptionBase, getOpsByType } from './util/subscription'
+import { External, isExternal } from './lexicon/types/app/bsky/embed/external'
 
 export class FirehoseSubscription extends FirehoseSubscriptionBase {
   async handleEvent(evt: RepoEvent) {
@@ -14,20 +15,24 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     // Just for fun :)
     // Delete before actually using
     for (const post of ops.posts.creates) {
-      console.log(post.record.text)
+      console.log(post.record.text);
+      console.log("by author " + post.author);
     }
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {
-        // only alf-related posts
-        return create.record.text.toLowerCase().includes('alf')
+        // only posts with links
+        // TODO look at things it's quoting 
+        return isExternal(create.record.embed?.external);
+        //return create.record.text.toLowerCase().includes('alf')
       })
       .map((create) => {
-        // map alf-related posts to a db row
+        // map posts to a db row
         return {
           uri: create.uri,
           cid: create.cid,
+          author: create.author,
           indexedAt: new Date().toISOString(),
         }
       })

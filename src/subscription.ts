@@ -31,6 +31,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         // map posts to a db row
         console.log("TEXT with embed: " + create.record.text);
         console.log("by author " + create.author);
+        console.log("uri " + create.uri);
         return {
           uri: create.uri,
           cid: create.cid,

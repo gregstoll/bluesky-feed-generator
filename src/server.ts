@@ -2,6 +2,7 @@ import http from 'http'
 import events from 'events'
 import express from 'express'
 import { DidResolver, MemoryCache } from '@atproto/identity'
+import { AtpAgent } from '@atproto/api'
 import { createServer } from './lexicon'
 import feedGeneration from './methods/feed-generation'
 import describeGenerator from './methods/describe-generator'
@@ -39,6 +40,7 @@ export class FeedGenerator {
       plcUrl: 'https://plc.directory',
       didCache,
     })
+    const agent = new AtpAgent({ service: cfg.bskyServiceUrl })
 
     const server = createServer({
       validateResponse: true,
@@ -52,6 +54,7 @@ export class FeedGenerator {
       db,
       didResolver,
       cfg,
+      agent,
     }
     feedGeneration(server, ctx)
     describeGenerator(server, ctx)

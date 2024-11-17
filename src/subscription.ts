@@ -19,6 +19,9 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       console.log("by author " + post.author);
     }*/
 
+    // TODO look at ops.reposts too
+    // see https://github.com/dolciss/rp-next-post/blob/main/src/subscription.ts
+
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {

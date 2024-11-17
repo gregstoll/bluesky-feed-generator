@@ -14,10 +14,10 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     // This logs the text of every post off the firehose.
     // Just for fun :)
     // Delete before actually using
-    for (const post of ops.posts.creates) {
+    /*for (const post of ops.posts.creates) {
       console.log("TEXT: " + post.record.text);
       console.log("by author " + post.author);
-    }
+    }*/
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
@@ -29,6 +29,8 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       })
       .map((create) => {
         // map posts to a db row
+        console.log("TEXT with embed: " + create.record.text);
+        console.log("by author " + create.author);
         return {
           uri: create.uri,
           cid: create.cid,

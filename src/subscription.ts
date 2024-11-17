@@ -15,7 +15,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     // Just for fun :)
     // Delete before actually using
     for (const post of ops.posts.creates) {
-      console.log(post.record.text);
+      console.log("TEXT: " + post.record.text);
       console.log("by author " + post.author);
     }
 
